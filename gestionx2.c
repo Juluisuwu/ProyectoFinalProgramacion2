@@ -44,13 +44,15 @@ typedef enum{
 data numof = {0,0,0,0};
 book* bib = NULL;
 person* users = NULL;
-borrowings* loans = NULL; 
+borrowings* loans = NULL;
 
 void* getInput(char* message,dataType type); void readDB(); void addInstance(dataType type); void updateDB(dataType tableUpdate);
 int findLoan(char* usrID, char* bookID, dataType searchCrit); char* borrowBook(); int findInstance(char* key, dataType tableLookup);
 char* returnBook(); void** consult(dataType, dataType,char*, size_t*); void printConsult();
+
 int main(){
     readDB();
+    
     return 0;
 }
 void printConsult(){
@@ -160,6 +162,15 @@ void** consult(dataType tableLookup, dataType criteria,char* key, size_t* arrSiz
     return filter;
 }
 char* returnBook(){
+    /*
+    Author: 
+    Date:
+    Description:
+    Param:
+    Ver.:
+    Name: returnBook
+    Return: char*
+    */
     char* idBook, *idUser;
     int tokenBook, tokenUser;
     int deleteDex;
@@ -200,11 +211,9 @@ char* borrowBook(){
     loans[numof.brwd].cons = malloc(sizeof(int)); *loans[numof.brwd].cons = numof.brwd + 1;
     loans[numof.brwd].id = id;
     loans[numof.brwd].isbn = isbn;
-    FILE* dataBase = fopen("loansDB.csv","a");
-    fprintf(dataBase,"%d,%s,%s\n",*loans[numof.brwd].cons,loans[numof.brwd].id,loans[numof.brwd].isbn);
+    updateDB(LOANSDB);
     (numof.brwd)++;
     (numof.avble)--;
-    fclose(dataBase);
     return "Se realizo el prestamo de manera exitosa.";
 }
 void updateDB(dataType talbleUpdate){
