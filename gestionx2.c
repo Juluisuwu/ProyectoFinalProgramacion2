@@ -51,8 +51,66 @@ int findLoan(char* usrID, char* bookID, dataType searchCrit); char* borrowBook()
 char* returnBook(); void** consult(dataType, dataType,char*, size_t*); void printConsult();
 
 int main(){
+    char* opc;
+    char* key;
+    int aux;
     readDB();
+    while(1){
+        system("clear");
+        printf("\nMenu Princial de Biblioteca");
+        printf("a)Registro de usuario\nb)Registra un libro\nc)Prestamo de libro\nd)Devolucion de libro\ne)Busqueda de libro\nf)Buscar usuario\ng)Salir");
+        opc = getInput("Registre una seleccion: ", STRING);
+        switch(*opc){
+            case 'a': 
+                addInstance(USERSDB);
+                break;
+            case 'b':
+                addInstance(BIBLDB);
+                break;
+            case 'c':
+                printf("%s\n", borrowBook());
+                sleep(2);
+                break;  
+            case 'd':
+                printf("%s\n", returnBook());
+                sleep(2);
+                break;
+            case 'e':
+                key = getInput("Registra el ISBN del libro");
+                if(aux = findInstance(key,BIBLDB) >= 0){
+                    printf("ISBN: %s\tTITULO: %s\tAUTOR: %s", bib[aux].isbn, bib[aux].title, bib[aux].author);
+                    free(getInput("Pulse cualquier tecla para volver al menu principal...",STRING));
+                }
+                else{ printf("No existe ese libro en nuestra base de datos\n");
+                free(getInput("Pulse cualquier tecla para volver al menu principal...",STRING));
+                }
+                free(key);
+                break;
+            case 'f':
+                key = getInput("Registre el ID de usuario buscado: ", ID);
+                if(aux = findInstance(key,BIBLDB) >= 0){
+                    printf("ID: %s\tNombre %s\t, users[aux].id, users[aux].name");
+                    free(getInput("Pulse cualquier tecla para volver al menu principal...", STRING));
+                }
+                else{ printf("No existe ese usuario en nuestra base de datos\n");
+                free(getInput("Pulse cualquier tecla para volver al menu principal...", STRING));
+                }
+                free(key);
+                }
+                break;
+            case 'S':
+                return 0;
+            default:
+                break;
+            
+        }
+        
+        
+        
+    }
     
+
+
     return 0;
 }
 void printConsult(){
